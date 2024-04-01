@@ -1,4 +1,3 @@
-use std::ffi::c_void;
 
 #[derive(Debug)]
 struct Node {

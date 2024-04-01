@@ -1,5 +1,3 @@
-mod main2;
-
 use std::fs;
 use std::net::SocketAddr;
 use std::error::Error;
