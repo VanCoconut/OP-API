@@ -1,0 +1,28 @@
+Uso di self, &self e &mut self
+ Nei metodi di una struct si può utilizzare self per avere un riferimento all’oggetto su
+ cui si sta operando: che differenza di comportamento c’è tra self, &self e &mut self?
+ Ipotizziamo di avere la struttura
+ struct Node {
+ name: String,
+ size: String,
+ count: u32,
+ }
+ impl Node {
+ pub fn new(name: String)-> Node {
+ Node {name, 0, 0}
+ }
+ }
+ Aggiungere due metodi size() e count() in modo che questo codice
+ let node = Node(String::new(“nodo”)).size(10).count(5);
+ crei il nodo {“nodo”, 10, 5}
+ Quante struct di tipo Node costruisco in tutto? Ci sono penalità dal punto di vista
+ dell’efficienza?
+ Questo modo di creare l’oggetto, un pezzo per volta a partire dai default, viene
+ definito “builder pattern”. Ciò permette di ovviare al problema della mancanza di
+ valori default e del polimorfismo nei metodi rust: nel caso di molti parametri opzionali
+ posso usare il pattern per creare una versione “base” dell’oggetto con i valori di
+ default e modificare solo gli attributi che hanno un valore diverso.
+ Aggiungere un metodo to_string() che lo trasformi in stringa “name:node size:10
+ count:5”. Come deve essere definito self in questo caso? Con o senza “&”?
+ Infine aggiungere due metodi grow() e inc() che aumentano rispettivamente la size e
+ il count di 1 senza creare un nuovo oggetto. Qui self come va definito?
