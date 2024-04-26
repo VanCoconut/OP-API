@@ -26,6 +26,7 @@ pub(crate) fn  subsequences1<'a>(s: &'a str, seq: &'a str) -> () {
     let mut position:usize = 0;
     let mut index_vettore=0;
     let mut next_vec_index = false;
+    let mut ultima_lettera:char = vettore[vettore.len()-1].0.parse().Ok();
     for element in s.chars(){
 
         let sequence_letter= vettore[index_vettore].0;
@@ -53,6 +54,9 @@ pub(crate) fn  subsequences1<'a>(s: &'a str, seq: &'a str) -> () {
         if contatore+1>min{
             next_vec_index=true;
             substring.push(element);
+            if element==ultima_lettera{
+                result.push((1, substring));
+            }
         }
 
         if((sequence_next_letter != element) && next_vec_index=true){
