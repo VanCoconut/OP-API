@@ -10,29 +10,53 @@ use std::collections::HashMap;
 //Vec<(usize, &'a str)>
 pub(crate) fn  subsequences1<'a>(s: &'a str, seq: &'a str) -> () {
     let mut a = seq.split(",").collect::<Vec<&str>>();
-    let mut map: HashMap<&str, &str> = HashMap::new();
+    let mut vettore: Vec<(&str, &str)> = Vec::new();
+    let mut result: Vec<(usize, &str)> = Vec::new();
+    let mut substring:&str="";
     for element in a {
         let first_element = &element.to_string()[..1];
         let the_rest = &element.to_string()[1..3];
-        map.insert(first_element, the_rest);
+        vettore.push((first_element, the_rest));
     }
     let mut contatore=0;
     let mut previous_letter= 'o';
-    let mut sequence = "ciao";
     let mut max =0;
     let mut min= 0;
+
     let mut position:usize = 0;
+    let mut index_vettore=0;
+    let mut next_vec_index = false;
     for element in s.chars(){
-        sequence= map.get(&element).unwrap();
-        min = &sequence.to_string()[..1].parse().Ok();
-        max = &sequence.to_string()[2..3].parse().Ok();
+
+        let sequence_letter= vettore[index_vettore].0;
+        let sequence_next_letter = vettore[index_vettore+1].0;
+        let sequence_number= vettore[index_vettore].1;
+        min = &sequence_number.to_string()[..1].parse().Ok();
+        max = &sequence_number.to_string()[2..3].parse().Ok();
+
+        if!(element ==sequence_letter){
+            //se non è A non ci serve, passiamo alla lettera successiva
+            continue;
+        }
 
         if element==previous_letter{
             contatore+=1;
         }
         if !(contatore+1<max && contatore+1>min){
             contatore=0;
-            continue
+            index_vettore=0;
+            next_vec_index=false;
+            substring="";
+            continue;
+        }
+
+        if contatore+1>min{
+            next_vec_index=true;
+            substring.push(element);
+        }
+
+        if((sequence_next_letter != element) && next_vec_index=true){
+            index_vettore+=1;
         }
 
         previous_letter=element;
@@ -40,7 +64,7 @@ pub(crate) fn  subsequences1<'a>(s: &'a str, seq: &'a str) -> () {
 }
 
 // pub fn demo1() {
-//     let a = "AACGGTAACC".to_string();
+//     let a = "CAACGGTAACCGCACCC".to_string();
 //     let seq = "A1-1,C2-4";
 //
 //     for (off, sub) in subsequences1(&a, seq) {
@@ -57,7 +81,7 @@ pub(crate) fn  subsequences1<'a>(s: &'a str, seq: &'a str) -> () {
 // }
 //
 // pub fn demo2() {
-//     let a = "AACGGTAACC".to_string();
+//     let a = "CAACGGTAACC".to_string();
 //     let seqs = ["A1-1,C2-4", "G1-1,T2-4"];
 //
 //     for (off, matched, sub) in subsequences2(&a, &seqs) {
